@@ -1,10 +1,38 @@
 package greetings
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+	"math/rand"
+)
 
-// Hello returns a greeting for the named person.
-func Hello(name string) string {
-	// Return a greeting that embeds the name in a message.
-	message := fmt.Sprintf("Hi, %v. Welcome!", name)
-	return message
+func Hello(name string) (string, error) {
+	if name == "" {
+		return "", errors.New("empty name")
+	}
+
+	message := fmt.Sprintf(randomFormat(), randomName())
+
+	return message, nil
+}
+
+func randomFormat() string {
+	formats := []string{
+		"Hi, %v. Welcome!",
+		"Great to see you, %v!",
+		"Hail, %v! Well met!",
+	}
+
+	return formats[rand.Intn(len(formats))]
+}
+
+func randomName() string {
+	names := []string{
+		"John",
+		"Paul",
+		"George",
+		"Ringo",
+	}
+
+	return names[rand.Intn(len(names))]
 }
